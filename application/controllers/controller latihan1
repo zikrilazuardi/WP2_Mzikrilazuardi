@@ -1,22 +1,38 @@
 <?php
-class latihan1 extends CI_Controller
+class Matakuliah extends CI_Controller
 {
     public function index()
-    {
-        echo "Selamat Datang.. selamat belajar Wep Programing";
-        //$this->load->view('view-lasihan1');
+    { 
+        $this->load->view('view-form-matakuliah');
     }
 
-    public function penjumlahan($n1, $n2)
+    public function cetak()
     {
-        $this->load->model('model_latihan1');
-        $this = $this->model_latihan1->jumlah($n1, $n2);
-        echo "Hasil Penjumlahan dari". $n1 ." + ". $n2 ." = " .$hasil; 
-        
-        $data['nilai1'] = $n1;
-        $data['nilai2'] = $n2;
-        $data['hasil'] = $this->model_latihan->jumlah($n1, $n2);
+    $this->form_validation->set_rules('kode', 'Kode Matakuliah', 
+'required|min_length[3]', [
+     'required' => 'Kode Matakuliah Harus diisi',
+     'min_lenght' => 'Kode terlalu pendek'
+    ]);
 
-        $this->load->view('view-latihan1', $data);
-    }
-}
+     $this->form_validation->set_rules('nama', 'Nama Matakuliah', 
+'required|min_length[3]', [
+     'required' => 'Nama Matakuliah Harus diisi',
+     'min_lenght' => 'Nama terlalu pendek'
+    ]);
+
+    if ($this->form_validation->run() != true) {
+        $this->load->view('view-form-matakuliah');
+   } else {
+    $data = [
+     'kode' => $this->input->post('kode'),
+     'nama' => $this->input->post('nama'),
+     'sks' => $this->input->post('sks')
+     ];
+
+     $this->load->view('view-data-matakuliah', $data);
+    
+          }
+    
+       }
+   }
+    
